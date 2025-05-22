@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const props = defineProps<{
-  color?:'regular' | 'red' | 'green';
+  color?:'' | 'regular' | 'red' | 'green' | 'primary';
 }>();
 const emit = defineEmits<{
   (e:'action'): void;
@@ -12,10 +12,17 @@ const emit = defineEmits<{
 </template>
 
 <style scoped>
+.regular{
+  background: blue;
+}
 .red{
   background: red;
 }
 .green{
   background: green;
+}
+.primary{
+  background: green;
+  color: #ffffff;
 }
 </style>

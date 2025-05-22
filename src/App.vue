@@ -1,131 +1,72 @@
 <script setup lang="ts">
-import {RouterView} from 'vue-router'
 import {ref} from "vue";
-import Header from "@/components/Header.vue";
-import NewsCard from "@/components/NewsCard.vue";
 
-interface NewsItem {
-  title: string;
-  id: number;
-  isOpen: boolean;
-  wasRead: boolean;
+const submitHandler = (event:Event):void=>{
+  console.group('Form Data')
+  console.log(event.target?.name.value)
+  console.groupEnd();
 }
-const nowDate:string = new Date().toLocaleDateString();
-let openRate=ref<number>(0);
-let readRate=ref<number>(0);
-const news: NewsItem[] = [
-  {
-    title: 'Joe',
-    id: 1,
-    isOpen: false,
-    wasRead: false
-  },
-  {
-    title: 'Qoe',
-    id: 2,
-    isOpen: false,
-    wasRead: false
-  },
-  {
-    title: 'Foe',
-    id: 3,
-    isOpen: false,
-    wasRead: false
-  },
-];
-const openNews = ():void => {
-  openRate.value++;
-}
-const readNews = ():void=>{
-  readRate.value++;
-}
-const unReadNews = ():void=>{
-  readRate.value--;
-}
+const name= ref<string>('');
+console.log(name.value)
 </script>
 <template>
-  <Header/>
-  <h2>Актульные новости на {{nowDate}}</h2>
-  <div>Открыто: <strong>{{openRate}}</strong> | Прочитано: <strong>{{ readRate }}</strong> </div>
-  <ul class="lis">
-    <NewsCard
-      v-for="item in news"
-      :key="item.id"
-      :title="item.title"
-      :id="item.id"
-      :is-open="item.isOpen"
-      :was-read="item.wasRead"
-      @onclick:openNews="openNews"
-      @onclick:readNews="readNews"
-      @onclick:un-read-news="unReadNews"
-    />
-  </ul>
-  <RouterView/>
+  <div class="container">
+    <form class="card" @submit.prevent="submitHandler">
+      <h1>Анкета на Vue разработчика!</h1>
+      <div class="form-control">
+        <label for="name">Как тебя зовут?</label>
+        <input
+          type="text"
+          id="name"
+          placeholder="Введи имя"
+          v-model="name"
+        >
+      </div>
+
+      <div class="form-control">
+        <label for="age">Выбери возраст</label>
+        <input type="number" id="age" value="20">
+      </div>
+
+      <div class="form-control">
+        <label for="city">Твой город</label>
+        <select id="city">
+          <option value="spb">Санкт-Петербург</option>
+          <option value="msk">Москва</option>
+          <option value="kzn">Казань</option>
+          <option selected value="nsk">Новосибирск</option>
+        </select>
+      </div>
+
+      <div class="form-checkbox">
+        <span class="label">Готов к переезду в Токио?</span>
+        <div class="checkbox">
+          <label><input type="radio" name="trip"/> Да</label>
+        </div>
+
+        <div class="checkbox">
+          <label><input type="radio" name="trip"/> Нет</label>
+        </div>
+      </div>
+
+      <div class="form-checkbox">
+        <span class="label">Что знаешь во Vue?</span>
+        <div class="checkbox">
+          <label><input type="checkbox"/> Vuex</label>
+        </div>
+        <div class="checkbox">
+          <label><input type="checkbox"/> Vue CLI</label>
+        </div>
+        <div class="checkbox">
+          <label><input type="checkbox"/> Vue Router</label>
+        </div>
+      </div>
+
+      <button type="submit" class="btn primary">Отправить</button>
+    </form>
+  </div>
 </template>
 
 <style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
-}
-strong{
-  font-weight: bold;
-}
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
-}
-
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
-}
 </style>
