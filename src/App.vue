@@ -1,24 +1,35 @@
 <script setup lang="ts">
 import {ref} from "vue";
 
-const name= ref<string>('');
+interface errosType {
+  name: string | null;
+}
+
+
+const name = ref<string>('');
 const age = ref<number>(23);
 const city = ref<string>('nsk');
 const relocate = ref<string>('');
-const skills= ref<string[]>([]);
+const skills = ref<string[]>([]);
 const agree = ref<boolean>(false);
+const errors = ref<errosType>({
+  name: null,
+})
 
 
-const formIsValid = ():boolean =>{
-  let isValid:boolean = true;
-  if(name.value.length === 0){
+const formIsValid = (): boolean => {
+  let isValid: boolean = true;
+  if (name.value.length === 0) {
+    errors.value.name = 'Name is required';
     isValid = false;
+  } else{
+    errors.value.name = null;
   }
 
   return isValid;
 }
-const submitHandler = ():void=>{
-  if(formIsValid()){
+const submitHandler = (): void => {
+  if (formIsValid()) {
     console.group('Form Data')
     console.log(`Name: ${name.value}`);
     console.log(`Age: ${age.value}`);
@@ -35,7 +46,7 @@ const submitHandler = ():void=>{
   <div class="container">
     <form class="card" @submit.prevent="submitHandler">
       <h1>Анкета на Vue разработчика!</h1>
-      <div class="form-control">
+      <div class="form-control" :class="{invalid: errors.name}">
         <label for="name">Как тебя зовут?</label>
         <input
           type="text"
@@ -43,6 +54,7 @@ const submitHandler = ():void=>{
           placeholder="Введи имя"
           v-model.trim="name"
         >
+        <small v-if="errors.name">{{ errors.name }}</small>
       </div>
 
       <div class="form-control">
@@ -86,7 +98,8 @@ const submitHandler = ():void=>{
           <label><input type="checkbox" v-model="skills" name="skills" value="CLI"/>Vue CLI</label>
         </div>
         <div class="checkbox">
-          <label><input type="checkbox" v-model="skills" name="skills" value="Router"/>Vue Router</label>
+          <label><input type="checkbox" v-model="skills" name="skills" value="Router"/>Vue
+            Router</label>
         </div>
       </div>
 
@@ -103,5 +116,10 @@ const submitHandler = ():void=>{
 </template>
 
 <style scoped>
-
+.form-control small{
+  color: red;
+}
+.form-control.invalid input{
+  border: 1px solid red;
+}
 </style>
