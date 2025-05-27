@@ -1,17 +1,31 @@
 <script setup lang="ts">
+defineProps<{
+  label:string,
+  error:string | null,
+  placeholder:string,
+  value:string,
+}>();
+const emit = defineEmits<{
+  (e:'update:value'):void;
+}>();
+const id:string = 'input-'+Math.random();
 
+const change = (event):void=>{
+  emit('update:value', event.target.value);
+}
 </script>
 
 <template>
-  <div class="form-control" :class="{invalid: errors.name}">
-    <label for="name">Как тебя зовут?</label>
+  <div class="form-control" :class="{invalid: error}">
+    <label :for="id">{{label}}</label>
     <input
       type="text"
-      id="name"
-      placeholder="Введи имя"
-      v-model.trim="name"
+      :id="id"
+      :placeholder="placeholder"
+      :value="value"
+      @input="change"
     >
-    <small v-if="errors.name">{{ errors.name }}</small>
+    <small v-if="error">{{ error }}</small>
   </div>
 </template>
 
