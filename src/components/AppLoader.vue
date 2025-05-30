@@ -3,10 +3,8 @@
 </script>
 
 <template>
-  <div class="container">
-    <div class="card">
-
-    </div>
+  <div class="loader">
+    <h1 style="color: red">Loading...</h1>
   </div>
 </template>
 
