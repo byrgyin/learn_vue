@@ -1,17 +1,12 @@
 <script setup lang="ts">
-
+import TheNavbar from "@/components/TheNavbar.vue";
+import {isAuth} from "@/apiHelper/helpers.ts";
 </script>
 
 <template>
-  <div class="container">
-    <div class="card">
-      <h2>Разговор про дериктивы</h2>
-
-      <div class="form-control">
-        <label for="inp">Active default</label>
-        <input type="text" id="inp">
-      </div>
-    </div>
+  <TheNavbar :visible="isAuth"/>
+  <div class="container with-nav">
+    <RouterView/>
   </div>
 </template>
 
